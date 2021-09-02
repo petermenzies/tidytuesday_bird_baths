@@ -1,0 +1,44 @@
+---
+title: "Tidy Tuesday Aug, 31 2021"
+author: "Peter Menzies"
+date: "9/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### Read in file using `tidytuesdayR` package
+
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2021-08-31')
+bird_baths <- tuesdata$bird_baths
+```
+
+### Creating subset with only the presence recordings
+
+```{r}
+bird_presence <- bird_baths %>% 
+  filter(survey_year != 'NA')
+```
+
+### Exploring to see if the species counts with no further info were sums of the 'presence counts'
+
+They are indeed
+
+```{r}
+bird_counts <- bird_presence %>% 
+  group_by(bird_type) %>% 
+  summarize(count = sum(bird_count))
+
+filter(bird_counts, bird_type == "Noisy Miner")
+```
+
+### More exploration to decide what to visualize
+
+```{r}
+unique(bird_presence$bioregions)
+```
+
