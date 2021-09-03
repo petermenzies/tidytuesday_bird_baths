@@ -42,3 +42,19 @@ filter(bird_counts, bird_type == "Noisy Miner")
 unique(bird_presence$bioregions)
 ```
 
+
+```{r}
+total_counts <- bird_baths %>% 
+  filter(bird_count > 1)
+```
+
+
+```{r}
+bird_counts_location <- bird_presence %>% 
+  group_by(bird_type, urban_rural, bioregions) %>% 
+  summarize(count = sum(bird_count))
+
+birds_sydney <- bird_counts_location %>% 
+  filter(bioregions == "Sydney Basin")
+```
+
